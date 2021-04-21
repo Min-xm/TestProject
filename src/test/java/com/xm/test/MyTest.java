@@ -10,6 +10,7 @@ import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.*;
 import com.xm.test.entity.Student;
 import com.xm.test.server.Producer;
+import com.xm.test.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,20 +49,21 @@ public class MyTest {
     @Autowired
     private RedisTemplate<String, Student> template;
 
-//    @Resource
-//    private Producer producer;
+    @Resource
+    private Producer producer;
 
     @Test
     void contextLoads() {
-//        RedisUtil redisUtil = new RedisUtil(template);
+
+        RedisUtil redisUtil = new RedisUtil(template);
         Student student = new Student();
         student.setName("123");
         student.setSex("男");
-//        template.opsForValue().set("student",student);
-//        redisUtil.hPut("hash","student",student);
+        template.opsForValue().set("student",student);
+        redisUtil.hPut("hash","student",student);
 
-//        Type type = Type.SUCCESS;
-//        System.out.println(type.value);
+        Type type = Type.SUCCESS;
+        System.out.println(type.value);
 
 //        producer.sendMail("XM",student);
 //        producer.getMail("XM");
@@ -112,59 +114,59 @@ public class MyTest {
 //        for (int e:rainbow) System.out.print(e+" ");
 
 
-        Thread thread = new Thread(()-> System.out.println("aaa"));
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i=0;i<5;i++) {
-                    System.out.println("bbb");
-                }
-            }
-        });
-        Thread thread3 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i=0;i<5;i++) {
-                    System.out.println("ccc");
-                }
-            }
-        });
+//        Thread thread = new Thread(()-> System.out.println("aaa"));
+//        Thread thread2 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i=0;i<5;i++) {
+//                    System.out.println("bbb");
+//                }
+//            }
+//        });
+//        Thread thread3 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i=0;i<5;i++) {
+//                    System.out.println("ccc");
+//                }
+//            }
+//        });
 //        thread2.setPriority(10);
 //        thread.start();
-        thread2.start();
-        thread3.start();
+//        thread2.start();
+//        thread3.start();
 
 
 
     }
 
 
-    public static void main(String[] args) {
-        MyThread thread = new MyThread();
-        Thread thread1 = new Thread(thread);
-        Thread thread2 = new Thread(thread);
-        Thread thread3 = new Thread(thread);
-        thread1.start();
-        thread2.start();
-        thread3.start();
-    }
+//    public static void main(String[] args) {
+//        MyThread thread = new MyThread();
+//        Thread thread1 = new Thread(thread);
+//        Thread thread2 = new Thread(thread);
+//        Thread thread3 = new Thread(thread);
+//        thread1.start();
+//        thread2.start();
+//        thread3.start();
+//    }
 
-}
+//}
 
-class MyThread implements Runnable{
-    private int ticket = 5 ;    // 假设一共有5张票
-    public void run(){
-        for(int i=0;i<100;i++){
-            synchronized(this){ // 要对当前对象进行同步
-                if(ticket>0){   // 还有票
-                    try{
-                        Thread.sleep(300) ; // 加入延迟
-                    }catch(InterruptedException e){
-                        e.printStackTrace() ;
-                    }
-                    System.out.println("卖票：ticket = " + ticket-- );
-                }
-            }
-        }
-    }
+//class MyThread implements Runnable{
+//    private int ticket = 5 ;    // 假设一共有5张票
+//    public void run(){
+//        for(int i=0;i<100;i++){
+//            synchronized(this){ // 要对当前对象进行同步
+//                if(ticket>0){   // 还有票
+//                    try{
+//                        Thread.sleep(300) ; // 加入延迟
+//                    }catch(InterruptedException e){
+//                        e.printStackTrace() ;
+//                    }
+//                    System.out.println("卖票：ticket = " + ticket-- );
+//                }
+//            }
+//        }
+//    }
 };
